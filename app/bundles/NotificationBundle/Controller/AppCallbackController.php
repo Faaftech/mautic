@@ -15,9 +15,20 @@ class AppCallbackController extends CommonController
         $requestBody = json_decode($request->getContent(), true);
         $em          = $this->get('doctrine.orm.entity_manager');
         $contactRepo = $em->getRepository(Lead::class);
-        $matchData   = [
-            'email' => $requestBody['email'],
-        ];
+
+        $matchData = [];
+
+        if(array_key_exists('email', $requestBody){
+            $matchData   = [
+                'email' => $requestBody['email'],
+            ];
+        }
+
+        if(array_key_exists('identifier_user', $requestBody){
+            $matchData   = [
+                'identifier_user' => $requestBody['identifier_user'],
+            ];
+        }
 
         /** @var Lead $contact */
         $contact = $contactRepo->findOneBy($matchData);
