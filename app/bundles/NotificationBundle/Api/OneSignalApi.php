@@ -107,7 +107,9 @@ class OneSignalApi extends AbstractNotificationApi
         foreach ($mobileConfig as $key => $value) {
             switch ($key) {
                 case 'ios_subtitle':
-                    $data['subtitle'] = ['en' => $value];
+                    if(!empty($value) && is_null($value)){
+                        $data['subtitle'] = ['en' => $value];
+                    }
                     break;
                 case 'ios_sound':
                     $data['ios_sound'] = $value ?: 'default';
