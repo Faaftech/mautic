@@ -18,13 +18,13 @@ class AppCallbackController extends CommonController
 
         $matchData = [];
 
-        if(array_key_exists('email', $requestBody){
+        if(array_key_exists('email', $requestBody)){
             $matchData   = [
                 'email' => $requestBody['email'],
             ];
         }
 
-        if(array_key_exists('identifier_user', $requestBody){
+        if(array_key_exists('identifier_user', $requestBody)){
             $matchData   = [
                 'identifier_user' => $requestBody['identifier_user'],
             ];
