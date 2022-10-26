@@ -24,9 +24,9 @@ class AppCallbackController extends CommonController
             ];
         }
 
-        if(array_key_exists('identifier_user', $requestBody)){
+        if(array_key_exists('id', $requestBody)){
             $matchData   = [
-                'identifier_user' => $requestBody['identifier_user'],
+                'id' => $requestBody['id'],
             ];
         }
 
@@ -34,9 +34,17 @@ class AppCallbackController extends CommonController
         $contact = $contactRepo->findOneBy($matchData);
 
         if (null === $contact) {
-            $contact = new Lead();
-            $contact->setEmail($requestBody['email']);
-            $contact->setLastActive(new \DateTime());
+            return new JsonResponse(
+                [
+                    'errors' => [
+                        [
+                            'message' => `user not found`,
+                            'code'    => 400
+                        ],
+                    ],
+                ],
+                400
+            );
         }
 
         $pushIdCreated = false;
