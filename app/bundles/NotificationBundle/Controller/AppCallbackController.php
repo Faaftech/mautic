@@ -30,10 +30,23 @@ class AppCallbackController extends CommonController
             ];
         }
 
+        if ($matchData === null || !array_key_exists('push_id', $requestBody) || !array_key_exists('enabled', $requestBody)) {
+            return new JsonResponse(
+                [
+                    'errors' => [
+                        [
+                            'code'    => 400
+                        ],
+                    ],
+                ],
+                400 
+            );
+        }
+
         /** @var Lead $contact */
         $contact = $contactRepo->findOneBy($matchData);
 
-        if (null === $contact || $matchData === null || !array_key_exists('push_id', $requestBody) || !array_key_exists('enabled', $requestBody)) {
+        if (null === $contact) {
             return new JsonResponse(
                 [
                     'errors' => [
