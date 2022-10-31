@@ -16,7 +16,7 @@ class AppCallbackController extends CommonController
         $em          = $this->get('doctrine.orm.entity_manager');
         $contactRepo = $em->getRepository(Lead::class);
 
-        $matchData = [];
+        $matchData = null;
 
         if(array_key_exists('email', $requestBody)){
             $matchData   = [
@@ -33,17 +33,16 @@ class AppCallbackController extends CommonController
         /** @var Lead $contact */
         $contact = $contactRepo->findOneBy($matchData);
 
-        if (null === $contact) {
+        if (null === $contact || $matchData === null || !array_key_exists('push_id', $requestBody) || !array_key_exists('enabled', $requestBody)) {
             return new JsonResponse(
                 [
                     'errors' => [
                         [
-                            'message' => `user not found`,
                             'code'    => 400
                         ],
                     ],
                 ],
-                400
+                400 
             );
         }
 
